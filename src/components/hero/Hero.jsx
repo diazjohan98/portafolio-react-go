@@ -1,5 +1,5 @@
 /* src/components/hero/Hero.jsx */
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import "./Hero.css";
 
@@ -16,19 +16,26 @@ const Hero = () => {
   // Creamos referencias (Refs) para los elementos que queremos animar.
   const introRef = useRef(null);
   const nameRef = useRef(null);
-  const navRef = useRef(null); // Referencia para la navegación central
-  const footerRef = useRef(null); // Referencia para los iconos sociales
+  const navRef = useRef(null);
+  const footerRef = useRef(null);
+
+  const rightPanelRef = useRef(null);
+  const photoRef = useRef(null);
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   // useLayoutEffect para configuraciones visuales de GSAP.
   useLayoutEffect(() => {
-    // Contexto de GSAP vital para limpieza.
+    // 1. Creamos el contexto de GSAP
     let ctx = gsap.context(() => {
-      // Definimos la línea de tiempo de la animación de ENTRADA
+      // Línea de tiempo de la animación de ENTRADA
       const tl = gsap.timeline({
         defaults: { ease: "power2.out", duration: 0.8 },
       });
 
-      // Animaciones de entrada que ya tenías (aparecer)
       tl.fromTo(
         navRef.current.parentNode,
         { opacity: 0 },
@@ -54,48 +61,70 @@ const Hero = () => {
       );
       tl.fromTo(footerRef.current, { opacity: 0 }, { opacity: 1 }, "-=0.8");
 
-      // ==========================================
-      // 🌊 NUEVAS ANIMACIONES CONTINUAS (El "Flow")
-      // ==========================================
-
-      // 1. El "Hi, i am" flotando suavemente de arriba a abajo
+      // Animaciones de flotado infinito
       gsap.to(introRef.current, {
-        y: 8, // Sube y baja 8 pixeles
-        repeat: -1, // -1 significa infinito
-        yoyo: true, // Hace el efecto de ida y vuelta (respiración)
+        y: 8,
+        repeat: -1,
+        yoyo: true,
         ease: "sine.inOut",
-        duration: 2,
-        delay: 1.5, // Espera a que termine de aparecer para empezar a flotar
+        duration: 0.4,
+        delay: 1.5,
       });
 
-      // 2. Tu nombre (Johan Diaz) flotando con un ritmo ligeramente distinto
       gsap.to(nameRef.current, {
         y: 6,
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
-        duration: 2.5, // Un poco más lento para que se vea orgánico
+        duration: 1.0,
         delay: 1.6,
       });
 
-      // 3. El título de UI Designer flotando sutilmente
       gsap.to(".title-text", {
         y: 5,
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
-        duration: 2.2,
+        duration: 0.9,
         delay: 1.7,
       });
-    });
+    }); // Aquí se cierra gsap.context
 
-    // Función de limpieza
-    return () => ctx.revert();
-  }, []); // El array vacío significa que esto solo se ejecuta al montar el componente.
+    // 2. Lógica del Parallax del ratón
+    const mouseMoveParallax = (e) => {
+      const { clientX, clientY } = e;
+      const { innerWidth, innerHeight } = window;
+      const moveFactor = 15;
+
+      const xMove = (clientX - innerWidth / 2) / moveFactor;
+      const yMove = (clientY - innerHeight / 2) / moveFactor;
+
+      gsap.to(photoRef.current, {
+        x: xMove,
+        y: yMove,
+        duration: 1,
+        ease: "power2.out",
+      });
+    };
+
+    // Agregamos el escuchador de eventos
+    const rightPanel = rightPanelRef.current;
+    if (rightPanel) {
+      rightPanel.addEventListener("mousemove", mouseMoveParallax);
+    }
+
+    // 3. ÚNICO return de limpieza (SÚPER IMPORTANTE)
+    return () => {
+      ctx.revert(); // Limpiamos GSAP
+      if (rightPanel) {
+        rightPanel.removeEventListener("mousemove", mouseMoveParallax); // Limpiamos el ratón
+      }
+    };
+  }, []); // Cierre correcto del useLayoutEffect
 
   return (
     <div className="hero-container">
-      {/* --- Panel Izquierdo (Gris Claro) --- */}
+      {/* --- Panel Izquierdo --- */}
       <div className="left-panel">
         <header className="hero-header">
           <img src={logoJD} alt="JD Digital Logo" className="hero-logo" />
@@ -124,26 +153,44 @@ const Hero = () => {
         </footer>
       </div>
 
-      {/* --- Panel Derecho (Tu Foto + Oscurecimiento + clip-path) --- */}
-      <div className="right-panel">
-        {/* Tu foto del acuario real! */}
+      {/* --- Panel Derecho --- */}
+      <div className="right-panel" ref={rightPanelRef}>
         <img
           src={johanPhoto}
           alt="Johan Diaz Aquarium"
           className="johan-photo"
+          ref={photoRef}
         />
-        {/* Superposición oscurecedora para garantizar contraste de texto blanco */}
         <div className="photo-overlay"></div>
 
-        {/* Navegación central (sobre la foto oscurecida) */}
-        <nav ref={navRef} className="hero-nav">
-          <a href="#about-me">About me</a>
-          <a href="#skills">Skills</a>
-          <a href="#portfolio">Portafolio</a>
-          <a href="#ContactMe">Contact</a>
-        </nav>
+        <div
+          className={`hamburger ${isMenuOpen ? "active" : ""}`}
+          onClick={toggleMenu}
+        >
+          <span className="bar"></span>
+          <span className="bar"></span>
+          <span className="bar"></span>
+        </div>
 
-        {/* Botón 'CONTACT ME' (esquina superior derecha de este panel) */}
+        {/* Agregamos la clase dinámica 'menu-open' si el estado es true */}
+        <nav
+          ref={navRef}
+          className={`hero-nav ${isMenuOpen ? "menu-open" : ""}`}
+        >
+          {/* Agregamos onClick a cada enlace para que el menú se cierre al seleccionar una opción */}
+          <a href="#about-me" onClick={toggleMenu}>
+            About me
+          </a>
+          <a href="#skills" onClick={toggleMenu}>
+            Skills
+          </a>
+          <a href="#portfolio" onClick={toggleMenu}>
+            Portafolio
+          </a>
+          <a href="#ContactMe" onClick={toggleMenu}>
+            Contact
+          </a>
+        </nav>
       </div>
     </div>
   );
