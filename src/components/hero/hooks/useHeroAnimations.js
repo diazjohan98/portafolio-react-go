@@ -1,11 +1,12 @@
 import { useLayoutEffect } from "react";
 import gsap from "gsap";
 
-export const useHeroAnimations = (refs) => {
+export const useHeroAnimations = (refs, start) => {
   const { introRef, nameRef, navRef, footerRef, rightPanelRef, photoRef } =
     refs;
 
   useLayoutEffect(() => {
+    if (!start) return;
     let ctx = gsap.context(() => {
       const tl = gsap.timeline({
         defaults: { ease: "power2.out", duration: 0.8 },
@@ -31,6 +32,14 @@ export const useHeroAnimations = (refs) => {
         { y: 0, opacity: 1 },
         "-=0.6",
       );
+
+      tl.fromTo(
+        ".hero-logo",
+        { opacity: 0, scale: 0.8 },
+        { opacity: 1, scale: 1, duration: 0.5 },
+        "-=0.2",
+      );
+
       tl.fromTo(
         navRef.current,
         { opacity: 0, x: 20 },
@@ -45,7 +54,7 @@ export const useHeroAnimations = (refs) => {
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
-        duration: 0.4,
+        duration: 0.8,
         delay: 1.5,
       });
       gsap.to(nameRef.current, {
@@ -92,5 +101,5 @@ export const useHeroAnimations = (refs) => {
       if (rightPanel)
         rightPanel.removeEventListener("mousemove", mouseMoveParallax);
     };
-  }, [introRef, nameRef, navRef, footerRef, rightPanelRef, photoRef]);
+  }, [introRef, nameRef, navRef, footerRef, rightPanelRef, photoRef, start]);
 };
