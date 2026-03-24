@@ -34,4 +34,4 @@ const HeroNav = forwardRef((props, ref) => {
 });
 
 HeroNav.displayName = "HeroNav";
-export default HeroNav;
+export default React.memo(HeroNav);
