@@ -205,8 +205,9 @@
 
 .preloader-logo {
   height: 120px;
+  width: auto;
   opacity: 0;
-  will-change: transform, opacity; /* Optimización para animaciones fluidas */
+  will-change: transform, opacity, filter;
 }
 
 @media (max-width: 768px) {
@@ -287,12 +288,12 @@
   }
   .title-text {
     font-size: 16px;
-    margin-bottom: 30px; /* 👈 Esto crea un muro invisible que empuja los iconos hacia abajo */
+    margin-bottom: 30px;
   }
 
   .hero-footer {
     justify-content: center;
-    margin-top: 20px; /* 👈 Un extra de margen superior por si acaso */
-    padding-bottom: 20px; /* Le da un respiro antes de que empiece la foto negra */
+    margin-top: 20px;
+    padding-bottom: 20px;
   }
 }

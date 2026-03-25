@@ -14,38 +14,37 @@ const Preloader = ({ onComplete }) => {
 
       tl.fromTo(
         logoRef.current,
-        { scale: 0, opacity: 0 },
-        { scale: 1.5, opacity: 1, duration: 1, ease: "back.out(1.7)" }, // 1.5 para que sea más grande
+        { scale: 0.8, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 1, ease: "power2.out" },
       )
         .to(logoRef.current, {
-          scale: 1.6,
-          duration: 0.6,
-          repeat: 1,
-          yoyo: true,
+          scale: 1.1,
+          duration: 1.2,
           ease: "sine.inOut",
         })
-        .to(
-          logoRef.current,
-          {
-            x: "-40vw",
-            y: "-40vh",
-            scale: 0.5,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power3.inOut",
-          },
-          "+=0.2",
-        )
-        // 4. La cortina sube
+        .to(logoRef.current, {
+          scale: 60,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power4.in",
+        })
         .to(
           loaderRef.current,
           {
-            yPercent: -100,
-            duration: 1,
-            ease: "power4.inOut",
+            opacity: 0,
+            display: "none",
+            duration: 0.5,
+            ease: "none",
           },
           "-=0.4",
-        );
+        )
+        .to(logoRef.current, {
+          scale: 60,
+          opacity: 0,
+          filter: "blur(20px)",
+          duration: 0.8,
+          ease: "power4.in",
+        });
     });
     return () => ctx.revert();
   }, [onComplete]);
