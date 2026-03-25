@@ -46,7 +46,7 @@ const Hero = () => {
         style={{
           visibility: isLoading ? "hidden" : "visible",
           opacity: isLoading ? 0 : 1,
-          transition: "opacity 0.5s ease",
+          transition: "opacity 0.8s ease-in-out",
         }}
       >
         <div className="left-panel">
