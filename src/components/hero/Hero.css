@@ -138,6 +138,12 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sombra suave para profesionalismo */
 }
 
+.social-icon {
+  width: 50px;
+  height: 49px;
+  filter: grayscale(100%);
+  opacity: 0.6;
+}
 /* Navegación central (sobre la foto oscurecida) */
 .hero-nav {
   position: absolute;
