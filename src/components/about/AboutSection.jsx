@@ -120,8 +120,8 @@ export default function AboutSection() {
         ref={aboutMeRef}
         className="about-container bg-[#e5e5e5] text-black py-24 px-8 flex flex-col items-center"
       >
-        <div className="about-title-box border-4 border-black px-12 py-5 mb-12">
-          <h2 className="text-3xl font-black tracking-[0.3em] uppercase">
+        <div className="about-title-box border-4 border-black px-6 md:px-12 py-3 md:py-5 mb-12 text-center">
+          <h2 className="text-2xl md:text-3xl font-black tracking-[0.15em] md:tracking-[0.3em] uppercase whitespace-nowrap">
             About Me
           </h2>
         </div>

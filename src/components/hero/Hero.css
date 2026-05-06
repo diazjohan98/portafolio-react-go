@@ -1,31 +1,30 @@
 /* src/components/hero/Hero.css */
 :root {
-  --color-primary: #1d1d1b; /* Negro/Texto principal (Legible sobre gris claro) */
-  --color-secondary: #818181; /* Gris de "UI Designer" */
-  --color-bg-light: #e6e6e6; /* Fondo gris claro izquierdo */
-  --color-accent: #ffffff; /* Texto blanco (Para contraste sobre la foto oscurecida) */
-  /* Superposición negra con opacidad para oscurecer la foto */
+  --color-primary: #1d1d1b;
+  --color-secondary: #818181;
+  --color-bg-light: #e6e6e6;
+  --color-accent: #ffffff;
   --color-overlay: rgba(29, 29, 27, 0.7);
 }
 
 .hero-container {
-  display: flex; /* Estructura Flex estructural simple */
+  display: flex;
   width: 100%;
-  height: 100vh; /* Ocupa todo el alto de la pantalla */
-  overflow: hidden; /* Evita scrolls raros */
-  background-color: var(--color-bg-light); /* Fondo base de reserva */
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--color-bg-light);
 }
 
-/* --- Panel Izquierdo (Gris Claro) --- */
+/* --- Panel Izquierdo --- */
 .left-panel {
-  flex: 0 0 45%; /* Ocupa el 45% del ancho estructural */
+  flex: 0 0 45%;
   background-color: var(--color-bg-light);
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Empuja el header arriba y el footer abajo */
+  justify-content: space-between;
   padding: 40px;
   position: relative;
-  z-index: 1; /* Asegura que el texto esté sobre el fondo gris */
+  z-index: 1;
 }
 
 .hero-header {
@@ -34,11 +33,11 @@
 }
 
 .hero-logo {
-  height: 50px; /* Ajusta el tamaño */
+  height: 50px;
 }
 
 .main-intro {
-  margin-top: -100px; /* Ajuste visual para centrar los textos verticalmente */
+  margin-top: -100px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -47,95 +46,41 @@
 
 .intro-text {
   font-size: 24px;
-  color: var(--color-primary); /* Texto negro (LEGIBLE!) */
+  color: var(--color-primary);
   margin-bottom: 5px;
   font-weight: 500;
-  /* Estado inicial para GSAP */
   opacity: 0;
 }
 
 .name-text {
   font-size: 64px;
-  color: var(--color-primary); /* Texto negro (LEGIBLE!) */
+  color: var(--color-primary);
   margin: 0;
   font-weight: 700;
-  /* Estado inicial para GSAP */
   opacity: 0;
 }
 
 .title-text {
   font-size: 18px;
-  color: var(--color-secondary); /* Gris secundario legible */
+  color: var(--color-secondary);
   margin-top: 5px;
   font-weight: 400;
+}
+
+/* --- Contenedor de Iconos Sociales (NUEVO) --- */
+.social-wrapper {
+  position: absolute;
+  bottom: 60px;
+  left: 10%;
+  transform: scale(1.5);
+  transform-origin: left center;
 }
 
 .hero-footer {
   display: flex;
   justify-content: flex-start;
   gap: 20px;
-  /* Estado inicial para GSAP */
   opacity: 0;
-}
-
-.social-icon {
-  width: 24px;
-  height: 24px;
-  filter: grayscale(100%); /* Efecto gris de Figma */
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
-}
-
-.social-icon:hover {
-  opacity: 1;
-  filter: grayscale(0%);
-}
-
-/* --- Panel Derecho (Tu Foto + Oscurecimiento + 🏆 clip-path 🏆) --- */
-.right-panel {
-  flex: 1; /* Ocupa el resto del ancho (55% estructural) */
-  position: relative;
-  clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%);
-  overflow: hidden; /* Contiene la foto y la superposición */
-  opacity: 0;
-}
-
-/* Imagen de fondo (Tu foto real del acuario!) */
-.johan-photo {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Asegura que cubra todo el panel */
-  z-index: -2; /* Va detrás de todo */
-}
-
-/* Superposición oscurecedora (El cuadro negro claro) para contraste */
-.photo-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: var(--color-overlay); /* RGBA oscuro para legibilidad */
-  z-index: -1; /* Va delante de la foto, detrás de la navegación y botón */
-}
-
-/* Botón 'CONTACT ME' flotante (Esquina superior derecha de este panel) */
-.contact-button {
-  position: absolute;
-  top: 40px;
-  right: 40px;
-  padding: 10px 20px;
-  background-color: var(--color-accent); /* Botón blanco (LEGIBLE!) */
-  color: var(--color-primary); /* Texto negro legible en botón */
-  border: none;
-  border-radius: 20px;
-  font-weight: 600;
-  cursor: pointer;
-  z-index: 10;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sombra suave para profesionalismo */
 }
 
 .social-icon {
@@ -143,35 +88,66 @@
   height: 49px;
   filter: grayscale(100%);
   opacity: 0.6;
+  /* Recuerda que quitamos el transition porque GSAP hace la magia */
 }
-/* Navegación central (sobre la foto oscurecida) */
+
+/* --- Panel Derecho --- */
+.right-panel {
+  flex: 1;
+  position: relative;
+  clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%);
+  overflow: hidden;
+  opacity: 0;
+}
+
+.johan-photo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+.photo-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-overlay);
+  z-index: -1;
+}
+
+/* Navegación Desktop */
 .hero-nav {
   position: absolute;
-  top: 48px; /* Lo subimos para que quede alineado visualmente con el botón */
-  left: 30%; /* Lo separamos del borde diagonal */
+  top: 48px;
+  left: 30%;
   display: flex;
-  gap: 35px; /* Espacio elegante entre enlaces */
+  gap: 35px;
   z-index: 10;
-  /* Estado inicial para GSAP */
   opacity: 0;
 }
 
 .hero-nav a {
   font-size: 18px;
-  color: var(--color-accent); /* Texto blanco (LEGIBLE!) */
+  color: var(--color-accent);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
 }
 
 .hero-nav a:hover {
-  color: var(--color-secondary); /* Un gris claro al pasar el ratón */
+  color: var(--color-secondary);
 }
 
+/* Hamburguesa */
 .hamburger {
   display: none;
   cursor: pointer;
-  z-index: 100; /* Siempre por encima de todo */
+  z-index: 100;
 }
 
 .hamburger .bar {
@@ -180,11 +156,10 @@
   height: 3px;
   margin: 6px auto;
   transition: all 0.3s ease-in-out;
-  background-color: var(--color-accent); /* Blanco */
+  background-color: var(--color-accent);
   border-radius: 3px;
 }
 
-/* Animación de Hamburguesa a "X" */
 .hamburger.active .bar:nth-child(1) {
   transform: translateY(9px) rotate(45deg);
 }
@@ -216,6 +191,9 @@
   will-change: transform, opacity, filter;
 }
 
+/* ======================================================
+   📱 RESPONSIVE DESIGN (MÓVILES Y TABLETS)
+   ====================================================== */
 @media (max-width: 768px) {
   .hero-container {
     flex-direction: column;
@@ -242,64 +220,81 @@
   }
 
   .name-text {
-    font-size: 32px;
+    font-size: 40px; /* Un poco más grande para mejor impacto en móvil */
     line-height: 1.2;
     margin-bottom: 10px;
   }
 
+  .title-text {
+    font-size: 16px;
+    margin-bottom: 30px;
+  }
+
+  /* ✨ AQUÍ ESTÁ LA MAGIA PARA TUS ÍCONOS EN MÓVIL ✨ */
+  .social-wrapper {
+    position: relative; /* Ya no es absoluto */
+    bottom: 0;
+    left: 0;
+    transform: scale(
+      1.2
+    ); /* Un poco más pequeños en móvil para que no estorben */
+    transform-origin: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+
+  .hero-footer {
+    justify-content: center; /* Centramos los iconos */
+  }
+
+  /* --- Ajustes del panel derecho (Foto) --- */
   .right-panel {
     flex: none;
     width: 100%;
-    min-height: 60vh;
-    padding: 0; /* Quitamos padding para que la foto cubra todo */
-    clip-path: polygon(0 8%, 100% 0%, 100% 100%, 0% 100%);
+    min-height: 50vh;
+    padding: 0;
+    clip-path: polygon(
+      0 5%,
+      100% 0%,
+      100% 100%,
+      0% 100%
+    ); /* Diagonal más sutil */
   }
 
-  /* Mostramos el botón hamburguesa y lo ubicamos arriba a la derecha */
   .hamburger {
     display: block;
     position: absolute;
-    top: 40px;
-    right: 30px;
+    top: 30px;
+    right: 20px;
   }
 
-  /* Convertimos la navegación en un menú desplegable oculto */
   .hero-nav {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(29, 29, 27, 0.95); /* Fondo negro casi sólido */
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    background-color: transparent;
+    padding-top: 100px;
     align-items: center;
-    gap: 30px;
+    gap: 40px;
     z-index: 90;
-
-    /* Efecto de aparecer suavemente */
     opacity: 0 !important;
-    pointer-events: none; /* No se puede clickear si está oculto */
+    pointer-events: none;
     transition: opacity 0.4s ease;
   }
 
-  /* Cuando el estado es true (menu-open), mostramos el menú */
   .hero-nav.menu-open {
-    opacity: 1 !important;
+    opacity: 80 !important;
     pointer-events: all;
   }
 
   .hero-nav a {
-    font-size: 24px; /* Letra más grande para los dedos */
-  }
-  .title-text {
-    font-size: 16px;
-    margin-bottom: 30px;
-  }
-
-  .hero-footer {
-    justify-content: center;
-    margin-top: 20px;
-    padding-bottom: 20px;
+    font-size: 28px;
   }
 }

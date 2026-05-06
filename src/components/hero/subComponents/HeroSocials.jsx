@@ -37,10 +37,11 @@ const HeroSocials = forwardRef((props, ref) => {
     >
       {/* Aplicamos los eventos a la etiqueta <a> para que anime todo el bloque */}
       <a
-        href="#contacto"
+        href="mailto:jsvd3032@gmail.com"
+        target="_blank"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        style={{ display: "inline-block" }} // Importante para que el transform 'y' funcione bien en enlaces
+        style={{ display: "inline-block" }}
       >
         <img src={mailIcon} alt="Email" className="social-icon" />
       </a>
