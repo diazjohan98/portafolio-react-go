@@ -28,8 +28,8 @@ export default function SkillsSection() {
 
       const categories = [".using-now", ".learning", ".other-skills"];
 
-      // 2. Entrada de los elementos al hacer Scroll
       categories.forEach((category) => {
+        // 2. Animación del título de cada categoría
         gsap.from(`${category} .category-title`, {
           scrollTrigger: {
             trigger: `${category} .category-title`,
@@ -42,32 +42,47 @@ export default function SkillsSection() {
           ease: "power2.out",
         });
 
+        // 3. Animación de entrada SUAVE de los contenedores (Suben)
         gsap.from(`${category} .skill-item`, {
           scrollTrigger: {
             trigger: `${category} .skills-grid`,
             ...tlOptions,
             start: "top 95%",
           },
-          y: 30,
+          y: 40,
           opacity: 0,
-          scale: 0.9,
-          duration: 0.9,
+          duration: 0.6,
           stagger: 0.1,
           ease: "power3.out",
         });
+
+        // 4. EL POP DE LOS CUADRITOS BLANCOS 🔥 (Nueva animación de entrada)
+        gsap.from(`${category} .skill-box`, {
+          scrollTrigger: {
+            trigger: `${category} .skills-grid`,
+            ...tlOptions,
+            start: "top 95%",
+          },
+          scale: 0, // Nacen desde tamaño 0
+          rotation: -15, // Vienen un poquito rotados
+          opacity: 0,
+          duration: 0.5,
+          stagger: 0.1, // Entran en cascada igual que el contenedor
+          ease: "back.out(2.5)", // Efecto rebote bien marcado al aparecer
+        });
       });
 
-      // 3. LA OLA AUTOMÁTICA E INFINITA 🔥
+      // 5. LA OLA AUTOMÁTICA E INFINITA 🌊
       gsap.to(".skill-box", {
         borderColor: "#000000",
-        boxShadow: "4px 4px 0px 0px rgba(0,0,0,1)", // Sombra brutalista
-        y: -6, // Salto hacia arriba
-        duration: 0.5, // Velocidad del salto
-        delay: 1.5, // Espera inicial
+        boxShadow: "4px 4px 0px 0px rgba(0,0,0,1)",
+        y: -6,
+        duration: 0.3,
+        delay: 2, // ⚠️ IMPORTANTE: Esperamos 2 segundos para que el "Pop" de entrada termine
         stagger: {
-          each: 0.15, // Tiempo entre cada cuadro
-          repeat: -1, // Infinito
-          yoyo: true, // Hace que se devuelva suavemente (Sube y baja)
+          each: 0.15,
+          repeat: -1,
+          yoyo: true,
         },
         ease: "power1.inOut",
       });
