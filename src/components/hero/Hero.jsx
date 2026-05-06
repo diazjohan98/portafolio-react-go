@@ -1,5 +1,5 @@
 /* src/components/hero/Hero.jsx */
-import React, { useRef, useState } from "react"; // 1. Añadimos useState aquí
+import React, { useRef, useState } from "react";
 import "./Hero.css";
 
 // Importamos el Hook y los Subcomponentes
@@ -13,7 +13,6 @@ import logoJD from "../../assets/hero/jd-logo.png";
 import johanPhoto from "../../assets/hero/johan-avatar.JPEG";
 
 const Hero = () => {
-  // 2. Estado para el Preloader
   const [isLoading, setIsLoading] = useState(true);
 
   // Referencias para las animaciones
@@ -24,7 +23,6 @@ const Hero = () => {
   const rightPanelRef = useRef(null);
   const photoRef = useRef(null);
 
-  // 3. Pasamos las refs y el estado de carga al Hook
   useHeroAnimations(
     {
       introRef,
@@ -49,7 +47,8 @@ const Hero = () => {
           transition: "opacity 0.8s ease-in-out",
         }}
       >
-        <div className="left-panel">
+        {/* Le agregamos position: "relative" al left-panel para ubicar el texto de Scroll */}
+        <div className="left-panel" style={{ position: "relative" }}>
           <header className="hero-header">
             <img src={logoJD} alt="JD Digital Logo" className="hero-logo" />
           </header>
@@ -64,6 +63,21 @@ const Hero = () => {
             <p className="title-text">Front-end Developer / UI Designer</p>
           </main>
 
+          {/* --- CONTENEDOR DE ICONOS SOCIALES --- */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "90px" /* <-- Con esto los subimos bastante */,
+              left: "10%",
+              transform:
+                "scale(2.5)" /* <-- AQUÍ ESTÁ LA MAGIA: 1.5 significa 50% más grandes */,
+              transformOrigin:
+                "left center" /* Evita que al crecer se muevan hacia la derecha */,
+            }}
+          >
+            <HeroSocials ref={footerRef} />
+          </div>
+
           <HeroSocials ref={footerRef} />
         </div>
 
@@ -71,7 +85,7 @@ const Hero = () => {
         <div className="right-panel" ref={rightPanelRef}>
           <img
             src={johanPhoto}
-            alt="Johan Diaz Aquarium"
+            alt="Johan Diaz"
             className="johan-photo"
             ref={photoRef}
           />

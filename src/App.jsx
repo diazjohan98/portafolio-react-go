@@ -1,12 +1,14 @@
 import React from "react";
 import Hero from "./components/hero/Hero";
-// No olvides importar tus estilos globales si los tienes (como un index.css de Tailwind o CSS básico)
+import AboutSection from "./components/about/AboutSection";
+
 import "./App.css";
 
 function App() {
   return (
     <div className="App">
       <Hero />
+      <AboutSection />
     </div>
   );
 }
