@@ -1,27 +1,32 @@
 /* src/components/hero/Hero.jsx */
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "./Hero.css";
 
-// Importamos el Hook y los Subcomponentes
 import { useHeroAnimations } from "./hooks/useHeroAnimations";
 import HeroNav from "./subComponents/HeroNav";
 import HeroSocials from "./subComponents/HeroSocials";
 import Preloader from "./subComponents/Preloader";
 
-// Imágenes locales del Hero
 import logoJD from "../../assets/hero/jd-logo.png";
-import johanPhoto from "../../assets/hero/johan-avatar.JPEG";
+import johanPhoto from "../../assets/hero/johan-avatar.jpg";
 
 const Hero = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
-  // Referencias para las animaciones
   const introRef = useRef(null);
   const nameRef = useRef(null);
   const navRef = useRef(null);
   const footerRef = useRef(null);
   const rightPanelRef = useRef(null);
   const photoRef = useRef(null);
+  const waveRef = useRef(null);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = johanPhoto;
+    img.onload = () => setIsImageLoaded(true);
+  }, []);
 
   useHeroAnimations(
     {
@@ -31,13 +36,20 @@ const Hero = () => {
       footerRef,
       rightPanelRef,
       photoRef,
+      waveRef,
     },
-    !isLoading,
+    !isLoading && isImageLoaded,
   );
 
   return (
     <>
-      {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
+      {isLoading && (
+        <Preloader
+          onComplete={() => {
+            if (isImageLoaded) setIsLoading(false);
+          }}
+        />
+      )}
 
       <div
         className="hero-container"
@@ -47,7 +59,6 @@ const Hero = () => {
           transition: "opacity 0.8s ease-in-out",
         }}
       >
-        {/* Le agregamos position: "relative" al left-panel para ubicar el texto de Scroll */}
         <div className="left-panel" style={{ position: "relative" }}>
           <header className="hero-header">
             <img src={logoJD} alt="JD Digital Logo" className="hero-logo" />
@@ -63,26 +74,28 @@ const Hero = () => {
             <p className="title-text">Front-end Developer / UI Designer</p>
           </main>
 
-          {/* --- CONTENEDOR DE ICONOS SOCIALES --- */}
-          <div
-            style={{
-              position: "absolute",
-              bottom: "90px" /* <-- Con esto los subimos bastante */,
-              left: "10%",
-              transform:
-                "scale(2.5)" /* <-- AQUÍ ESTÁ LA MAGIA: 1.5 significa 50% más grandes */,
-              transformOrigin:
-                "left center" /* Evita que al crecer se muevan hacia la derecha */,
-            }}
-          >
+          <div className="social-wrapper">
             <HeroSocials ref={footerRef} />
           </div>
-
-          <HeroSocials ref={footerRef} />
         </div>
 
         {/* --- Panel Derecho --- */}
         <div className="right-panel" ref={rightPanelRef}>
+          {/* ✨ SVG de la Ola ✨ */}
+          <div className="wave-container">
+            <svg
+              viewBox="0 0 500 150"
+              preserveAspectRatio="none"
+              className="wave-svg"
+            >
+              <path
+                ref={waveRef}
+                d="M-7.62,100.15 C170.14,142.59 303.89,-20.22 505.36,120.88 L500.00,150.00 L0.00,150.00 Z"
+                className="wave-path"
+              ></path>
+            </svg>
+          </div>
+
           <img
             src={johanPhoto}
             alt="Johan Diaz"
@@ -90,7 +103,6 @@ const Hero = () => {
             ref={photoRef}
           />
           <div className="photo-overlay"></div>
-
           <HeroNav ref={navRef} />
         </div>
       </div>

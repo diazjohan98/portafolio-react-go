@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
-import jdLogoPreloader from "../../../assets/hero/logo-negro.png";
+import jdLogoPreloader from "../../../assets/hero/logo-negro.jpg";
 
 const Preloader = ({ onComplete }) => {
   const loaderRef = useRef(null);
@@ -23,8 +23,9 @@ const Preloader = ({ onComplete }) => {
           ease: "sine.inOut",
         })
         .to(logoRef.current, {
-          scale: 60,
+          scale: 80, // Un poco más grande para que cubra todo rápido
           opacity: 0,
+          filter: "blur(10px)",
           duration: 0.8,
           ease: "power4.in",
         })
@@ -33,18 +34,10 @@ const Preloader = ({ onComplete }) => {
           {
             opacity: 0,
             display: "none",
-            duration: 0.5,
-            ease: "none",
+            duration: 0.3,
           },
-          "-=0.4",
-        )
-        .to(logoRef.current, {
-          scale: 60,
-          opacity: 0,
-          filter: "blur(20px)",
-          duration: 0.8,
-          ease: "power4.in",
-        });
+          "-=0.3",
+        );
     });
     return () => ctx.revert();
   }, [onComplete]);
