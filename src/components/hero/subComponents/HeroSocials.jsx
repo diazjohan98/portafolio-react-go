@@ -1,8 +1,8 @@
 import React, { forwardRef } from "react";
 import gsap from "gsap"; // No olvides importar gsap
-import mailIcon from "../../../assets/hero/mail-icon.png";
-import githubIcon from "../../../assets/hero/github-icon.png";
-import linkedinIcon from "../../../assets/hero/linkedin-icon.png";
+import maildotru from "../../../assets/hero/maildotru.svg";
+import githubIcon from "../../../assets/hero/github.svg";
+import linkedinIcon from "../../../assets/hero/linkedin.svg";
 
 const HeroSocials = forwardRef((props, ref) => {
   // Animación cuando el mouse ENTRA al ícono
@@ -43,7 +43,7 @@ const HeroSocials = forwardRef((props, ref) => {
         onMouseLeave={handleMouseLeave}
         style={{ display: "inline-block" }}
       >
-        <img src={mailIcon} alt="Email" className="social-icon" />
+        <img src={maildotru} alt="Email" className="social-icon" />
       </a>
 
       <a
