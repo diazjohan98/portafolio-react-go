@@ -6,8 +6,16 @@ import { GitHubCalendar } from "react-github-calendar";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function PortafolioSection() {
+  const getInitialCount = () => {
+    if (typeof window !== "undefined") {
+      // Si es celular (ancho menor a 768px) mostramos 4. Si es PC, mostramos 6.
+      return window.innerWidth < 768 ? 4 : 6;
+    }
+    return 6;
+  };
+
   const [activeFilter, setActiveFilter] = useState("ALL");
-  const [visibleCount, setVisibleCount] = useState(4); // Iniciamos mostrando 4 proyectos
+  const [visibleCount, setVisibleCount] = useState(getInitialCount()); // Iniciamos mostrando 4 proyectos
   const sectionRef = useRef(null);
   const gridRef = useRef(null);
 
@@ -119,19 +127,18 @@ export default function PortafolioSection() {
     },
   ];
 
-  // Reseteamos el contador de proyectos a 4 cada vez que se cambia de pestaña
   useEffect(() => {
-    setVisibleCount(4);
+    setVisibleCount(getInitialCount());
   }, [activeFilter]);
 
-  // Lógica de filtrado y paginación
   const filteredProjects = projects.filter((project) =>
     activeFilter === "ALL" ? true : project.categories.includes(activeFilter),
   );
   const displayedProjects = filteredProjects.slice(0, visibleCount);
 
   const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + 4);
+    const loadAmount = window.innerWidth < 768 ? 4 : 3;
+    setVisibleCount((prev) => prev + loadAmount);
   };
 
   // 1. Animaciones Base (Hero, Título y GitHub)
