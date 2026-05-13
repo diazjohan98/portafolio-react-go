@@ -66,12 +66,15 @@ const Hero = () => {
 
           <main className="main-intro">
             <p ref={introRef} className="intro-text">
-              Hi, i am
+              Hi, I am
             </p>
             <h1 ref={nameRef} className="name-text">
               Johan Diaz
             </h1>
-            <p className="title-text">Front-end Developer / UI Designer</p>
+            <p className="title-text">Software Developer / React & Go</p>
+            <p className="description-text mt-4 text-gray-600">
+              Building high-performance and scalable web applications.
+            </p>
           </main>
 
           <div className="social-wrapper">
