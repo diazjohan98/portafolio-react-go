@@ -1,17 +1,12 @@
 import { useLayoutEffect } from "react";
 import gsap from "gsap";
+import { TextPlugin } from "gsap/TextPlugin";
+
+// Registramos el plugin
+gsap.registerPlugin(TextPlugin);
 
 export const useHeroAnimations = (refs, start) => {
-  // 1. Desestructuramos la nueva ref: waveRef
-  const {
-    introRef,
-    nameRef,
-    navRef,
-    footerRef,
-    rightPanelRef,
-    photoRef,
-    waveRef,
-  } = refs;
+  const { nameRef, navRef, footerRef, rightPanelRef, photoRef, waveRef } = refs;
 
   useLayoutEffect(() => {
     if (!start) return;
@@ -21,6 +16,10 @@ export const useHeroAnimations = (refs, start) => {
         defaults: { ease: "power3.out", duration: 1 },
       });
 
+      // 1. Vaciamos el nombre inicialmente
+      gsap.set(nameRef.current, { text: "" });
+
+      // 2. Animaciones de entrada del layout (Fondo, Logo, Navegación)
       if (navRef.current) {
         tl.fromTo(
           navRef.current.parentNode,
@@ -37,37 +36,37 @@ export const useHeroAnimations = (refs, start) => {
       );
 
       tl.fromTo(
-        introRef.current,
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1 },
-        "-=0.2",
+        ".hero-logo",
+        { opacity: 0, scale: 0.8 },
+        { opacity: 1, scale: 1 },
+        0.5, // Aparece al medio segundo
       )
-        .fromTo(
-          nameRef.current,
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1 },
-          "-=0.7",
-        )
-        .fromTo(
-          ".hero-logo",
-          { opacity: 0, scale: 0.8 },
-          { opacity: 1, scale: 1 },
-          "-=0.8",
-        )
         .fromTo(
           navRef.current,
           { opacity: 0, x: 20 },
           { opacity: 1, x: 0 },
-          "-=0.7",
+          0.8,
         )
-        .fromTo(footerRef.current, { opacity: 0 }, { opacity: 1 }, "-=0.8");
+        .fromTo(footerRef.current, { opacity: 0 }, { opacity: 1 }, 1);
 
-      // --- AQUÍ VA EL IF DE LA OLA ---
+      // ✨ 3. EFECTO MÁQUINA DE ESCRIBIR INFINITO ✨
+      // Lo hacemos con un gsap.to independiente para que no bloquee la línea de tiempo
+      gsap.to(nameRef.current, {
+        duration: 1.5,
+        text: "Johan Diaz",
+        ease: "none",
+        repeat: -1, // Bucle infinito
+        yoyo: true, // Va en reversa (efecto de borrado)
+        repeatDelay: 2, // Se queda quieto 2 segundos con el nombre escrito antes de borrar
+        delay: 0.5, // Espera medio segundo al cargar la página antes de empezar a escribir
+      });
+
+      // --- 4. ANIMACIÓN DE LA OLA ---
       if (waveRef && waveRef.current) {
         const waveTl = gsap.timeline({
-          repeat: -1, // Infinito
-          yoyo: true, // Va y viene
-          defaults: { ease: "sine.inOut" }, // Movimiento suave
+          repeat: -1,
+          yoyo: true,
+          defaults: { ease: "sine.inOut" },
         });
 
         waveTl
@@ -85,21 +84,17 @@ export const useHeroAnimations = (refs, start) => {
           });
 
         gsap.to(".wave-container", {
-          y: "-=20", // Sube 20px
-          x: "+=15", // Se mueve 15px a la derecha
+          y: "-=20",
+          x: "+=15",
           duration: 8,
           repeat: -1,
           yoyo: true,
           ease: "sine.inOut",
         });
       }
-      // -------------------------------
 
-      const floatingItems = [
-        { ref: introRef.current, y: 8, dur: 0.8, del: 1.5 },
-        { ref: nameRef.current, y: 6, dur: 1.0, del: 1.6 },
-        { ref: ".title-text", y: 5, dur: 0.9, del: 1.7 },
-      ];
+      // --- 5. ELEMENTOS FLOTANTES (Solo el "Software Developer") ---
+      const floatingItems = [{ ref: ".title-text", y: 5, dur: 0.9, del: 1.7 }];
 
       floatingItems.forEach((item) => {
         gsap.to(item.ref, {
@@ -112,6 +107,7 @@ export const useHeroAnimations = (refs, start) => {
         });
       });
 
+      // --- 6. PARALLAX CON EL MOUSE ---
       const mouseMoveParallax = (e) => {
         const xMove = (e.clientX - window.innerWidth / 2) / 15;
         const yMove = (e.clientY - window.innerHeight / 2) / 15;

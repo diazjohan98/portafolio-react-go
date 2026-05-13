@@ -139,8 +139,7 @@ export default function AboutSection() {
           <br />
           {/* 5. Cambiamos el botón a un <a> tag para el enlace a LinkedIn */}
           <a
-            href="https://www.linkedin.com/in/tu-url-de-linkedin-aqui"
-            target="_blank"
+            href="#portfolio"
             rel="noopener noreferrer"
             className="flex items-center gap-4 text-xs font-bold tracking-widest hover:text-gray-600 transition-colors cursor-pointer"
           >

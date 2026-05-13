@@ -49,7 +49,7 @@
   color: var(--color-primary);
   margin-bottom: 5px;
   font-weight: 500;
-  opacity: 0;
+  /* Se eliminó opacity: 0 para que esté estático desde el inicio */
 }
 
 .name-text {
@@ -57,7 +57,23 @@
   color: var(--color-primary);
   margin: 0;
   font-weight: 700;
-  opacity: 0;
+  font-family: "Courier New", Courier, monospace;
+  border-right: 5px solid var(--color-primary);
+  padding-right: 8px;
+  animation: blinkCursor 0.8s infinite step-end;
+  width: fit-content;
+  align-self: flex-start;
+  min-height: 75px;
+}
+
+@keyframes blinkCursor {
+  0%,
+  100% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: var(--color-primary);
+  }
 }
 
 .title-text {
