@@ -258,9 +258,13 @@
   }
 
   .name-text {
-    font-size: 40px; /* Un poco más grande para mejor impacto en móvil */
+    font-size: 40px;
     line-height: 1.2;
     margin-bottom: 10px;
+    align-self: center;
+    width: fit-content;
+    min-height: 48px;
+    text-align: center;
   }
 
   .title-text {
