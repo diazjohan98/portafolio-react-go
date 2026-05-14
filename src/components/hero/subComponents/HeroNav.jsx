@@ -23,7 +23,7 @@ const HeroNav = forwardRef((props, ref) => {
           Skills
         </a>
         <a href="#portfolio" onClick={toggleMenu}>
-          Portafolio
+          Portfolio
         </a>
         <a href="#ContactMe" onClick={toggleMenu}>
           Contact
