@@ -228,7 +228,7 @@ export default function PortafolioSection() {
 
         <div className="portfolio-title-box relative z-10 border-2 md:border-4 border-black px-8 py-4 md:px-12 md:py-5 bg-white/90 backdrop-blur-sm shadow-2xl mx-4 text-center">
           <h2 className="text-2xl md:text-3xl font-black tracking-[0.2em] md:tracking-[0.3em] text-black uppercase">
-            Portafolio
+            Portfolio
           </h2>
         </div>
       </div>
